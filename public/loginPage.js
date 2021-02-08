@@ -1,14 +1,14 @@
 "use strict";
 const user = new UserForm;
 user.loginFormCallback = (data) => {
-ApiConnector.login(data, (response) => {
-  if (response.success) {
-    location.reload();
-  }
-  else {
-alert(response.error);
-  };
-});
+  ApiConnector.login(data, (response) => {
+    if (response.success) {
+      location.reload();
+    }
+    else {
+      user.setLoginErrorMessage(response.error);
+    };
+  });
 };
 
 user.registerFormCallback = (data) => {
@@ -17,9 +17,9 @@ user.registerFormCallback = (data) => {
       location.reload();
     }
     else {
-  alert(response.error);
+      user.setRegisterErrorMessage(response.error);
     };
-});
-}
+  });
+};
 
 
