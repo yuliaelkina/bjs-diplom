@@ -7,6 +7,7 @@ logoutButton.action = () => {
   }
  )
 };
+
 ApiConnector.current((response) => {
   if (response.success) {
     ProfileWidget.showProfile(response.data);
@@ -22,5 +23,30 @@ function getRates() {
     }
   })
 };
-let timerRates = setInterval(getRates, 1000);
+const timerRates = setInterval(getRates, 1000);
+
+const money = new MoneyManager;
+money.addMoneyCallback = (data) => {
+  ApiConnector.addMoney(data, (response) => {
+    if(response.success) {
+      ProfileWidget.showProfile(response.data);
+      money.setMessage(response.success, "Счет успешно пополнен");
+    }
+    else {
+      money.setMessage(response.success, response.error);
+    };
+  })
+};
+
+money.conversionMoneyCallback = (data) => {
+  ApiConnector.convertMoney(data, (response) => {
+    if(response.success) {
+      ProfileWidget.showProfile(response.data);
+      money.setMessage(response.success, "Конвертация проведена успешно");
+    }
+    else {
+      money.setMessage(response.success, response.error);
+    };
+  });
+};
 
